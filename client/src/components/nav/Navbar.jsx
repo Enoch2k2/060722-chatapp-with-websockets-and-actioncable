@@ -7,7 +7,8 @@ import {
   Typography,
   Button
 } from '@material-ui/core'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../actions/users';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,9 +26,20 @@ const Navbar = () => {
   const classes = useStyles();
   const { loggedIn } = useSelector(store => store.usersReducer);
 
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    fetch('/logout', {
+      method: "DELETE"
+    })
+
+    dispatch(logoutUser());
+  }
+
   const links = loggedIn ? <>
     <Button color="inherit" to="/chat" component={NavLink}>Chat</Button>
-    <Button color="inherit">Logout</Button>
+    <Button color="inherit">Username</Button>
+    <Button color="inherit" onClick={ handleLogout }>Logout</Button>
   </> : <>
     <Button color="inherit" to="/login" component={NavLink}>Login</Button>
     <Button color="inherit" to="/signup" component={NavLink}>Signup</Button>
