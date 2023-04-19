@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
   AppBar,
@@ -24,9 +24,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
-  const { loggedIn } = useSelector(store => store.usersReducer);
+  const { loggedIn, user } = useSelector(store => store.usersReducer);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     fetch('/logout', {
@@ -34,11 +35,12 @@ const Navbar = () => {
     })
 
     dispatch(logoutUser());
+    navigate('/login');
   }
 
   const links = loggedIn ? <>
     <Button color="inherit" to="/chat" component={NavLink}>Chat</Button>
-    <Button color="inherit">Username</Button>
+    <Button color="inherit">{ user.username }</Button>
     <Button color="inherit" onClick={ handleLogout }>Logout</Button>
   </> : <>
     <Button color="inherit" to="/login" component={NavLink}>Login</Button>

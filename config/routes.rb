@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
   resources :messages, only: [:index, :create]
   # resources :users
-
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
   post "/signup", to: "users#create"

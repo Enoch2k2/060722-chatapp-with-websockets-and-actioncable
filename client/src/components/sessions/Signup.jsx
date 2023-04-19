@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { signup } from '../../actions/users';
-
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 const Signup = () => {
@@ -8,10 +8,11 @@ const Signup = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(signup({ username, password }))
+    dispatch(signup({ username, password }, navigate));
   }
 
   return (
